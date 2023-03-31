@@ -11,7 +11,7 @@ public class Application {
         // добавляем новую строку в таблицу и выводим всю таблицу в консоль
         System.out.println("Задача 1. Создать (добавить) сущность Employee в таблицу");
         insertSeparator2();
-        employeeDAO.addEmployee("James", "Hopkins", "male", 39, new City(3));
+        employeeDAO.addEmployee("Lewis", "Bond", "male", 33, new City(6));
         List<Employee> employees = employeeDAO.getAllEmployees();
         employees.forEach(System.out::println);
 
@@ -32,14 +32,15 @@ public class Application {
         // изменяем объект по id и выводим полученную строку в консоль
         System.out.println("Задача 4. Изменить конкретный объект Employee в базе по id"); // изменение возраста
         insertSeparator2();
-        employeeDAO.updateEmployee(10, 30);
+        employeeDAO.updateEmployee(10, 31);
         System.out.println(employeeDAO.getEmployeeById(10));
 
         insertSeparator1();
         // удаляем конкретный объект по id и выводим оставшиеся строки в консоль
         System.out.println("Задача 5. Удалить конкретный объект Employee в базе по id");
         insertSeparator2();
-        employeeDAO.removeEmployee(6);
+        employeeDAO.removeEmployee(7);
+        employees = employeeDAO.getAllEmployees();
         employees.forEach(System.out::println);
 
         insertSeparator1();
