@@ -1,35 +1,38 @@
-package homework_4;
+package jdbc.service;
+
+import jdbc.config.ConnectionConfig;
+import jdbc.model.City;
+import jdbc.model.Employee;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmployeeDAOImpl implements EmployeeDAO{
-    final String url = "jdbc:postgresql://localhost:5432/skypro";
-    final String user = "postgres";
-    final String password = "12345";
+public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public void addEmployee(String firstName, String lastName, String gender, int age, City city) {
         Employee employee = new Employee(firstName, lastName, gender, age, city);
-        try (final Connection connection = DriverManager.getConnection(url, user, password);
-             PreparedStatement statement = connection.prepareStatement(String.format("INSERT INTO employee (first_name, " +
-                             "last_name, gender, age, city_id) VALUES ('" + employee.getFirstName() + "', '" + employee.getLastName() +
-                     "', '" + employee.getGender() + "', '" + employee.getAge() + "', '" + city.getCityID() + "');"))) {
+        try (PreparedStatement statement = ConnectionConfig.getConnection().prepareStatement(String.format("" +
+                "INSERT INTO employee (first_name, last_name, gender, age, city_id) VALUES ((?), (?), (?), (?), (?));"))) {
+            statement.setString(1, employee.getFirstName());
+            statement.setString(2, employee.getLastName());
+            statement.setString(3, employee.getGender());
+            statement.setInt(4, employee.getAge());
+            statement.setInt(5, employee.getCity().getId());
             statement.executeUpdate();
-
         } catch (SQLException e) {
             System.out.println("Ошибка при подключении к базе данных!");
-            e.printStackTrace();
         }
     }
 
     @Override
     public Employee getEmployeeById(int id) {
         Employee employee = null;
-        try (final Connection connection = DriverManager.getConnection(url, user, password);
-             PreparedStatement statement = connection.prepareStatement(String.format("SELECT id, first_name, last_name, gender, age, city_name " +
-                     "FROM city RIGHT JOIN employee ON city.city_id = employee.city_id WHERE id = " + id + ";"))) {
+        try (PreparedStatement statement = ConnectionConfig.getConnection().prepareStatement(String.format("" +
+                        "SELECT id, first_name, last_name, gender, age, city_name " +
+                     "FROM city RIGHT JOIN employee ON city.city_id = employee.city_id WHERE id = (?);"))) {
+            statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 String firstName = resultSet.getString("first_name");
@@ -42,7 +45,6 @@ public class EmployeeDAOImpl implements EmployeeDAO{
             }
         } catch (SQLException e) {
             System.out.println("Ошибка подключения к базе данных!");
-            e.printStackTrace();
         }
         return employee;
     }
@@ -50,9 +52,9 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     @Override
     public List<Employee> getAllEmployees() {
         List<Employee> employees = new ArrayList<>();
-        try (final Connection connection = DriverManager.getConnection(url, user, password);
-        PreparedStatement statement = connection.prepareStatement(String.format("SELECT id, first_name, last_name, gender, age, city_name " +
-                "FROM city RIGHT JOIN employee ON city.city_id = employee.city_id;"))) {
+        try (PreparedStatement statement = ConnectionConfig.getConnection().prepareStatement(String.format("" +
+                "SELECT id, first_name, last_name, gender, age, city_name FROM city " +
+                "RIGHT JOIN employee ON city.city_id = employee.city_id;"))) {
             ResultSet resultSet = statement.executeQuery();
             while(resultSet.next()) {
                 int id = resultSet.getInt("id");
@@ -70,11 +72,16 @@ public class EmployeeDAOImpl implements EmployeeDAO{
     }
 
     @Override
-    public void updateEmployee(int id, int newAge) {
-        try (Connection connection = DriverManager.getConnection(url, user, password);
-             PreparedStatement statement = connection.prepareStatement("UPDATE employee SET age = "
-                     + newAge + " WHERE id = " + id + ";")) {
-             statement.executeUpdate();
+    public void updateEmployee(int id, Employee employee) {
+        try (PreparedStatement statement = ConnectionConfig.getConnection().prepareStatement(String.format("" +
+                "UPDATE employee SET first_name = (?), last_name = (?), gender = (?), age = (?), city_id = (?) WHERE id = (?);"))) {
+            statement.setString(1, employee.getFirstName());
+            statement.setString(2, employee.getLastName());
+            statement.setString(3, employee.getGender());
+            statement.setInt(4, employee.getAge());
+            statement.setInt(5, employee.getCity().getId());
+            statement.setInt(6, id);
+            statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Ошибка подключения к базе данных!");
         }
@@ -82,8 +89,9 @@ public class EmployeeDAOImpl implements EmployeeDAO{
 
     @Override
     public void removeEmployee(int id) {
-        try (Connection connection = DriverManager.getConnection(url, user, password);
-             PreparedStatement statement = connection.prepareStatement("DELETE FROM employee WHERE id = " + id + ";")) {
+        try (PreparedStatement statement = ConnectionConfig.getConnection().prepareStatement("" +
+                "DELETE FROM employee WHERE id = (?);")) {
+            statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Ошибка подключения к базе данных!");
