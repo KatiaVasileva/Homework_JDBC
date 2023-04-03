@@ -1,4 +1,7 @@
-package homework_4;
+package jdbc.service;
+
+import jdbc.model.City;
+import jdbc.model.Employee;
 
 import java.util.List;
 
@@ -10,7 +13,7 @@ public interface EmployeeDAO {
 
     List<Employee> getAllEmployees();
 
-    void updateEmployee(int id, int newAge);
+    void updateEmployee(int id, Employee employee);
 
     void removeEmployee(int id);
 }

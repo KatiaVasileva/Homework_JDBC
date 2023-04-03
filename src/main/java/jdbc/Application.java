@@ -1,4 +1,9 @@
-package homework_4;
+package jdbc;
+
+import jdbc.model.City;
+import jdbc.model.Employee;
+import jdbc.service.EmployeeDAO;
+import jdbc.service.EmployeeDAOImpl;
 
 import java.util.List;
 
@@ -11,7 +16,7 @@ public class Application {
         // добавляем новую строку в таблицу и выводим всю таблицу в консоль
         System.out.println("Задача 1. Создать (добавить) сущность Employee в таблицу");
         insertSeparator2();
-        employeeDAO.addEmployee("Lewis", "Bond", "male", 33, new City(6));
+        employeeDAO.addEmployee("Margareth", "Thatcher", "female", 88, new City(2));
         List<Employee> employees = employeeDAO.getAllEmployees();
         employees.forEach(System.out::println);
 
@@ -32,14 +37,14 @@ public class Application {
         // изменяем объект по id и выводим полученную строку в консоль
         System.out.println("Задача 4. Изменить конкретный объект Employee в базе по id"); // изменение возраста
         insertSeparator2();
-        employeeDAO.updateEmployee(10, 31);
+        employeeDAO.updateEmployee(10, new Employee("Jane", "Tanes", "female", 44, new City(5)));
         System.out.println(employeeDAO.getEmployeeById(10));
 
         insertSeparator1();
         // удаляем конкретный объект по id и выводим оставшиеся строки в консоль
         System.out.println("Задача 5. Удалить конкретный объект Employee в базе по id");
         insertSeparator2();
-        employeeDAO.removeEmployee(7);
+        employeeDAO.removeEmployee(13);
         employees = employeeDAO.getAllEmployees();
         employees.forEach(System.out::println);
 
