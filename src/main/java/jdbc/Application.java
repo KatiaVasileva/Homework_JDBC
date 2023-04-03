@@ -1,6 +1,5 @@
 package jdbc;
 
-import jdbc.model.City;
 import jdbc.model.Employee;
 import jdbc.service.EmployeeDAO;
 import jdbc.service.EmployeeDAOImpl;
@@ -16,7 +15,7 @@ public class Application {
         // добавляем новую строку в таблицу и выводим всю таблицу в консоль
         System.out.println("Задача 1. Создать (добавить) сущность Employee в таблицу");
         insertSeparator2();
-        employeeDAO.addEmployee("Margareth", "Thatcher", "female", 88, new City(2));
+        employeeDAO.addEmployee(new Employee("Margareth", "Thatcher", "female", 88, 2));
         List<Employee> employees = employeeDAO.getAllEmployees();
         employees.forEach(System.out::println);
 
@@ -37,14 +36,14 @@ public class Application {
         // изменяем объект по id и выводим полученную строку в консоль
         System.out.println("Задача 4. Изменить конкретный объект Employee в базе по id"); // изменение возраста
         insertSeparator2();
-        employeeDAO.updateEmployee(10, new Employee("Jane", "Tanes", "female", 44, new City(5)));
+        employeeDAO.updateEmployee(10, new Employee("Jane", "Tanes", "female", 44, 5));
         System.out.println(employeeDAO.getEmployeeById(10));
 
         insertSeparator1();
         // удаляем конкретный объект по id и выводим оставшиеся строки в консоль
         System.out.println("Задача 5. Удалить конкретный объект Employee в базе по id");
         insertSeparator2();
-        employeeDAO.removeEmployee(13);
+        employeeDAO.removeEmployee(14);
         employees = employeeDAO.getAllEmployees();
         employees.forEach(System.out::println);
 

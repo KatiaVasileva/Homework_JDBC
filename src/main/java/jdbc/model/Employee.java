@@ -3,24 +3,35 @@ package jdbc.model;
 import java.util.Objects;
 import lombok.*;
 
+import javax.persistence.*;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 
+@Entity
+@Table(name = "employee")
 public class Employee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name = "first_name", length = 50, nullable = false)
     private String firstName;
+    @Column(name = "last_name", length = 50, nullable = false)
     private String lastName;
+    @Column(length = 6, nullable = false)
     private String gender;
+    @Column(nullable = false)
     private int age;
-    private City city;
+    @Column(name = "city_id")
+    private int city;
 
     public Employee(String firstName,
                     String lastName,
                     String gender,
                     int age,
-                    City city) {
+                    int city) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
@@ -31,7 +42,7 @@ public class Employee {
     @Override
     public String toString() {
         return "#" + getId() + ": " + getFirstName() + ", " + getLastName() + ", " +
-                getGender() + ", " + getAge() + ", " + city.getName();
+                getGender() + ", " + getAge() + ", " + getCity();
     }
 
     @Override
