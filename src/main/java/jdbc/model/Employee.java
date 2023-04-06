@@ -24,14 +24,15 @@ public class Employee {
     private String gender;
     @Column(nullable = false)
     private int age;
-    @Column(name = "city_id")
-    private int city;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "city_id")
+    private City city;
 
     public Employee(String firstName,
                     String lastName,
                     String gender,
                     int age,
-                    int city) {
+                    City city) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
