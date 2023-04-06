@@ -1,7 +1,8 @@
-package jdbc.service;
+package hibernate.dao;
 
-import jdbc.HibernateSessionFactoryUtil;
-import jdbc.model.Employee;
+import hibernate.HibernateSessionFactoryUtil;
+import hibernate.dao.EmployeeDAO;
+import hibernate.model.Employee;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import java.util.List;
@@ -33,17 +34,16 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
-    public void updateEmployee(int id, Employee employee) {
+    public void updateEmployee(Employee employee) {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-            employee.setId(id);
             session.update(employee);
             transaction.commit();
         }
     }
 
     @Override
-    public void removeEmployee(int id) {
+    public void deleteEmployee(int id) {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             Employee employee = session.get(Employee.class, id);

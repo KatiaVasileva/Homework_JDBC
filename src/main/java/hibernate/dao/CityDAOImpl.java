@@ -1,7 +1,7 @@
-package jdbc.dao;
+package hibernate.dao;
 
-import jdbc.HibernateSessionFactoryUtil;
-import jdbc.model.City;
+import hibernate.HibernateSessionFactoryUtil;
+import hibernate.model.City;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 

@@ -1,4 +1,4 @@
-package jdbc.model;
+package hibernate.model;
 
 import java.util.Objects;
 import lombok.*;
@@ -11,14 +11,13 @@ import javax.persistence.*;
 @NoArgsConstructor
 
 @Entity
-@Table(name = "employee")
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name = "first_name", length = 50, nullable = false)
+    @Column(name = "first_name")
     private String firstName;
-    @Column(name = "last_name", length = 50, nullable = false)
+    @Column(name = "last_name")
     private String lastName;
     @Column(length = 6, nullable = false)
     private String gender;
@@ -31,13 +30,11 @@ public class Employee {
     public Employee(String firstName,
                     String lastName,
                     String gender,
-                    int age,
-                    City city) {
+                    int age) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
         this.age = age;
-        this.city = city;
     }
 
     @Override

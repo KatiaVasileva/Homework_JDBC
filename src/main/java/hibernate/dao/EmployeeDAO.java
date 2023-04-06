@@ -1,6 +1,6 @@
-package jdbc.service;
+package hibernate.dao;
 
-import jdbc.model.Employee;
+import hibernate.model.Employee;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ public interface EmployeeDAO {
 
     List<Employee> getAllEmployees();
 
-    void updateEmployee(int id, Employee employee);
+    void updateEmployee(Employee employee);
 
-    void removeEmployee(int id);
+    void deleteEmployee(int id);
 }

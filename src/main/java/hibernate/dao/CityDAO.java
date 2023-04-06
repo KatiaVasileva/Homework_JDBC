@@ -1,6 +1,6 @@
-package jdbc.dao;
+package hibernate.dao;
 
-import jdbc.model.City;
+import hibernate.model.City;
 
 import java.util.List;
 
