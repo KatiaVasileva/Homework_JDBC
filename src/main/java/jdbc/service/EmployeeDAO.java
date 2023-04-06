@@ -1,13 +1,12 @@
 package jdbc.service;
 
-import jdbc.model.City;
 import jdbc.model.Employee;
 
 import java.util.List;
 
 public interface EmployeeDAO {
 
-    void addEmployee(String firstName, String lastName, String gender, int age, City city);
+    void addEmployee(Employee employee);
 
     Employee getEmployeeById(int id);
 
