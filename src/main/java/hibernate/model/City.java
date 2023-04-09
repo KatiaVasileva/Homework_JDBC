@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "id")
 
 @Entity
 public class City {
@@ -18,9 +18,8 @@ public class City {
     private int id;
     @Column(name = "city_name")
     private String name;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "city", cascade = CascadeType.ALL, orphanRemoval = true)
-    // отложенная загрузка, чтобы не загружать коллекцию дочерних объектов сразу же,
-    // при загрузке родительских объектов и не подгружать из базы лишние объекты-сущности
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "city", cascade = CascadeType.ALL, orphanRemoval = true)
+    // использую стратегию EAGER, чтобы избежать LazyInitializationException при проведении проверок
     private List<Employee> employees;
 
     public City() {
@@ -36,12 +35,12 @@ public class City {
         employees.add(employee);
     }
 
-    public void changeEmployeeInTheCity(Employee employee, Employee newEmployee) {
-        removeEmployeefromCity(employee);
+    public void changeEmployeeInCity(Employee employee, Employee newEmployee) {
+        removeEmployeeFromCity(employee);
         addEmployeeToCity(newEmployee);
     }
 
-    public void removeEmployeefromCity(Employee employee) {
+    public void removeEmployeeFromCity(Employee employee) {
         employees.remove(employee);
     }
 

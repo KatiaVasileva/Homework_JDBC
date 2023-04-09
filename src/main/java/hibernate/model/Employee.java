@@ -1,6 +1,5 @@
 package hibernate.model;
 
-import java.util.Objects;
 import lombok.*;
 
 import javax.persistence.*;
@@ -9,6 +8,7 @@ import javax.persistence.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(of = "id")
 
 @Entity
 public class Employee {
@@ -23,7 +23,7 @@ public class Employee {
     private String gender;
     @Column(nullable = false)
     private int age;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;
 
@@ -41,18 +41,5 @@ public class Employee {
     public String toString() {
         return "#" + getId() + ": " + getFirstName() + ", " + getLastName() + ", " +
                 getGender() + ", " + getAge() + ", " + getCity();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Employee employee = (Employee) o;
-        return id == employee.id && firstName.equals(employee.firstName) && lastName.equals(employee.lastName) && gender.equals(employee.gender);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, firstName, lastName, gender);
     }
 }
