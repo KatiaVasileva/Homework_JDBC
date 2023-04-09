@@ -6,13 +6,15 @@ import java.util.List;
 
 public interface CityDAO {
 
-    public void addCity(City city);
+    void addCity(City city);
 
-    public void updateCity(City city);
+    void updateCity(City city);
 
-    public void deleteCity(City city);
+    void deleteCity(City city);
 
-    public City getCityById(int id);
+    City getCityById(int id);
 
-    public List<City> grtAllCities();
+    List<City> getAllCities();
+
+    void getEmployees(int id);
 }

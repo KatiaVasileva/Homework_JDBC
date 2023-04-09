@@ -1,7 +1,6 @@
 package hibernate.dao;
 
-import hibernate.HibernateSessionFactoryUtil;
-import hibernate.dao.EmployeeDAO;
+import hibernate.config.HibernateSessionFactoryUtil;
 import hibernate.model.Employee;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -28,15 +27,15 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     @Override
     public List<Employee> getAllEmployees() {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
-            List<Employee> employees = session.createQuery("SELECT s FROM Employee s").list();
-            return employees;
+            return session.createQuery("SELECT s FROM Employee s").list();
         }
     }
 
     @Override
-    public void updateEmployee(Employee employee) {
+    public void updateEmployeeById(int id, Employee employee) {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
+            employee.setId(id);
             session.update(employee);
             transaction.commit();
         }

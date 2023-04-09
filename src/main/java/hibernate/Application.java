@@ -4,74 +4,47 @@ import hibernate.dao.CityDAO;
 import hibernate.dao.CityDAOImpl;
 import hibernate.model.City;
 import hibernate.model.Employee;
-import hibernate.dao.EmployeeDAO;
-import hibernate.dao.EmployeeDAOImpl;
 
 public class Application {
     public static void main(String[] args) {
 
-        EmployeeDAO employeeDAO = new EmployeeDAOImpl();
         CityDAO cityDAO = new CityDAOImpl();
 
-       /* insertSeparator1();
-        // добавляем новую строку в таблицу и выводим всю таблицу в консоль
-        System.out.println("Задача 1. Создать (добавить) сущность Employee в таблицу");
-        insertSeparator2();
-        employeeDAO.addEmployee(new Employee("Margareth", "Thatcher", "female", 88,
-                new City("London")));
-        List<Employee> employees = employeeDAO.getAllEmployees();
-        employees.forEach(System.out::println);
+        // Создайте объект City и несколько объектов Employee. Укажите сотрудников в объекте City.
+        // Сохраните город и убедитесь, что сотрудники тоже сохранились в базе данных.
 
-        insertSeparator1();
-        // получаем объект по id и выводим его в консоль
-        System.out.println("Задача 2. Получить конкретный объект Employee по id"); // совпадает c заданием 4 из пункта 1
-        insertSeparator2();
-        Employee employee = employeeDAO.getEmployeeById(1);
-        System.out.println(employee);
-
-        insertSeparator1();
-        System.out.println("Задача 3. Получить список всех объектов Employee");
-        insertSeparator2();
-        employees = employeeDAO.getAllEmployees();
-        employees.forEach(System.out::println);
-
-        insertSeparator1();
-        // изменяем объект и выводим полученную строку в консоль
-        System.out.println("Задача 4. Изменить объект Employee в базе по id");
-        insertSeparator2();
-        employeeDAO.updateEmployee(new Employee("Jane", "Tanes", "female", 44,
-                new City("New York")));
-        System.out.println(employeeDAO.getEmployeeById(10));
-
-        insertSeparator1();
-        // удаляем конкретный объект по id и выводим оставшиеся строки в консоль
-        System.out.println("Задача 5. Удалить конкретный объект Employee в базе по id");
-        insertSeparator2();
-        employeeDAO.deleteEmployee(14);
-        employees = employeeDAO.getAllEmployees();
-        employees.forEach(System.out::println);
-
-        insertSeparator1();*/
-
-        City city = new City("Los Angeles");
-        cityDAO.addCity(city);
+        City city1 = new City("Los Angeles");
+        cityDAO.addCity(city1);
         Employee employee1 = new Employee("Stuart", "Nelson", "male", 45);
-        employee1.setCity(city);
-        city.addEmployeeToCity(employee1);
+        employee1.setCity(city1);
+        city1.addEmployeeToCity(employee1);
         Employee employee2 = new Employee("Martha", "Griggs", "female", 36);
-        employee2.setCity(city);
-        city.addEmployeeToCity(employee2);
+        employee2.setCity(city1);
+        city1.addEmployeeToCity(employee2);
         Employee employee3 = new Employee("Walter", "Disney", "male", 69);
-        employee3.setCity(city);
-        city.addEmployeeToCity(employee3);
-        cityDAO.updateCity(city);
-    }
+        employee3.setCity(city1);
+        city1.addEmployeeToCity(employee3);
+        cityDAO.updateCity(city1);
 
-    public static void insertSeparator1() {
-        System.out.println("====================================================================================");
-    }
+        City city2 = new City("New York");
+        cityDAO.addCity(city2);
+        Employee employee4 = new Employee("Karin", "Boye", "female", 37);
+        employee4.setCity(city2);
+        city2.addEmployeeToCity(employee4);
+        Employee employee5 = new Employee("Henry", "Ford", "male", 49);
+        employee5.setCity(city2);
+        city2.addEmployeeToCity(employee5);
+        cityDAO.updateCity(city2);
 
-    public static void insertSeparator2() {
-        System.out.println("...................................................................................");
+        // Замените одного из сотрудников в городе, обновите сущность в базе данных и убедитесь,
+        // что сотрудник изменился в БД.
+        city1.changeEmployeeInTheCity(employee1, new Employee("Jake", "Donn", "male", 26));
+        cityDAO.updateCity(city1);
+        city2.changeEmployeeInTheCity(employee5, new Employee("Thomas",
+                "Crane", "male", 21));
+        cityDAO.updateCity(city2);
+
+        // Удалите экземпляр City из базы данных и убедитесь, что и город, и ссылающиеся на него сотрудники удалены.
+        cityDAO.deleteCity(city1);
     }
 }

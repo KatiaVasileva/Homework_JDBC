@@ -18,7 +18,9 @@ public class City {
     private int id;
     @Column(name = "city_name")
     private String name;
-    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "city", cascade = CascadeType.ALL, orphanRemoval = true)
+    // отложенная загрузка, чтобы не загружать коллекцию дочерних объектов сразу же,
+    // при загрузке родительских объектов и не подгружать из базы лишние объекты-сущности
     private List<Employee> employees;
 
     public City() {
@@ -32,5 +34,19 @@ public class City {
     public void addEmployeeToCity(Employee employee) {
         employee.setCity(this);
         employees.add(employee);
+    }
+
+    public void changeEmployeeInTheCity(Employee employee, Employee newEmployee) {
+        removeEmployeefromCity(employee);
+        addEmployeeToCity(newEmployee);
+    }
+
+    public void removeEmployeefromCity(Employee employee) {
+        employees.remove(employee);
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

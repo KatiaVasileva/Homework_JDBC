@@ -1,4 +1,4 @@
-package hibernate;
+package hibernate.config;
 
 import hibernate.model.City;
 import hibernate.model.Employee;
