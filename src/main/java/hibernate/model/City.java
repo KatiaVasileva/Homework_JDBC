@@ -18,8 +18,7 @@ public class City {
     private int id;
     @Column(name = "city_name")
     private String name;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "city", cascade = CascadeType.ALL, orphanRemoval = true)
-    // использую стратегию EAGER, чтобы избежать LazyInitializationException при проведении проверок
+    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Employee> employees;
 
     public City() {
@@ -30,18 +29,9 @@ public class City {
         employees = new ArrayList<>();
     }
 
-    public void addEmployeeToCity(Employee employee) {
+    public void addEmployee(Employee employee) {
         employee.setCity(this);
         employees.add(employee);
-    }
-
-    public void changeEmployeeInCity(Employee employee, Employee newEmployee) {
-        removeEmployeeFromCity(employee);
-        addEmployeeToCity(newEmployee);
-    }
-
-    public void removeEmployeeFromCity(Employee employee) {
-        employees.remove(employee);
     }
 
     @Override

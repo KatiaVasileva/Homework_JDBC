@@ -23,7 +23,7 @@ public class Employee {
     private String gender;
     @Column(nullable = false)
     private int age;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "city_id")
     private City city;
 
@@ -35,6 +35,18 @@ public class Employee {
         this.lastName = lastName;
         this.gender = gender;
         this.age = age;
+    }
+
+    public Employee(String firstName,
+                    String lastName,
+                    String gender,
+                    int age,
+                    City city) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.age = age;
+        this.city = city;
     }
 
     @Override

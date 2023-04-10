@@ -7,6 +7,8 @@ import hibernate.dao.EmployeeDAOImpl;
 import hibernate.model.City;
 import hibernate.model.Employee;
 
+import java.util.List;
+
 public class Application {
     public static void main(String[] args) {
 
@@ -26,30 +28,30 @@ public class Application {
 
         City city1 = new City("Los Angeles");
         cityDAO.addCity(city1);
-        Employee employee1 = new Employee("Stuart", "Nelson", "male", 45);
-        employee1.setCity(city1);
-        city1.addEmployeeToCity(employee1);
-        Employee employee2 = new Employee("Martha", "Griggs", "female", 36);
-        employee2.setCity(city1);
-        city1.addEmployeeToCity(employee2);
+        Employee employee1 = new Employee("Stuart", "Nelson", "male", 45, city1);
+        Employee employee2 = new Employee("Martha", "Griggs", "female", 36, city1);
+        city1.addEmployee(employee1);
+        city1.addEmployee(employee2);
         cityDAO.updateCity(city1);
 
         // Проверка сохранения города и сотрудников
         System.out.println("The city has been saved: " + cityDAO.getAllCities().contains(city1)); // true
         System.out.println("The employee has been saved in the city: "
-                + cityDAO.getCityById(city1.getId()).getEmployees().contains(employee1)); // true
+               + employeeDAO.getAllEmployees().contains(employee1)); // true
         System.out.println("The employee has been saved in the city: "
-                + cityDAO.getCityById(city1.getId()).getEmployees().contains(employee2)); // true
+                + employeeDAO.getAllEmployees().contains(employee2)); // true
 
     // 7. Замените одного из сотрудников в городе, обновите сущность в базе данных и убедитесь,
     // что сотрудник изменился в БД.
         Employee newEmployee1 = new Employee("Jake", "Donn", "male", 26);
-        city1.changeEmployeeInCity(employee1, newEmployee1);
+        List<Employee> employees = city1.getEmployees();
+        employees.set(employees.indexOf(employee1), newEmployee1);
+        city1.addEmployee(newEmployee1);
         cityDAO.updateCity(city1);
 
         // Проверка изменения сотрудника
         System.out.println("The employee has been changed: "
-                + cityDAO.getCityById(city1.getId()).getEmployees().contains(newEmployee1)); // true
+                + employeeDAO.getAllEmployees().contains(newEmployee1)); // true
 
     // 8. Удалите экземпляр City из базы данных и убедитесь, что и город, и ссылающиеся на него сотрудники удалены.
         cityDAO.deleteCity(city1);
