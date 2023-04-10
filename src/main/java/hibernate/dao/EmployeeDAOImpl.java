@@ -1,7 +1,7 @@
-package jdbc.service;
+package hibernate.dao;
 
-import jdbc.SessionFactoryUtil;
-import jdbc.model.Employee;
+import hibernate.config.HibernateSessionFactoryUtil;
+import hibernate.model.Employee;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import java.util.List;
@@ -10,7 +10,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public void addEmployee(Employee employee) {
-        try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             session.save(employee);
             transaction.commit();
@@ -19,22 +19,21 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public Employee getEmployeeById(int id) {
-        try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             return session.get(Employee.class, id);
         }
     }
 
     @Override
     public List<Employee> getAllEmployees() {
-        try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
-            List<Employee> employees = session.createQuery("SELECT s FROM Employee s").list();
-            return employees;
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            return session.createQuery("SELECT s FROM Employee s").list();
         }
     }
 
     @Override
-    public void updateEmployee(int id, Employee employee) {
-        try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
+    public void updateEmployeeById(int id, Employee employee) {
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             employee.setId(id);
             session.update(employee);
@@ -43,8 +42,8 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
-    public void removeEmployee(int id) {
-        try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
+    public void deleteEmployee(int id) {
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             Employee employee = session.get(Employee.class, id);
             session.delete(employee);
