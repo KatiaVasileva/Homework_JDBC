@@ -43,10 +43,9 @@ public class Application {
 
     // 7. Замените одного из сотрудников в городе, обновите сущность в базе данных и убедитесь,
     // что сотрудник изменился в БД.
-        Employee newEmployee1 = new Employee("Jake", "Donn", "male", 26);
+        Employee newEmployee1 = new Employee("Jake", "Donn", "male", 26, city1);
         List<Employee> employees = city1.getEmployees();
         employees.set(employees.indexOf(employee1), newEmployee1);
-        city1.addEmployee(newEmployee1);
         cityDAO.updateCity(city1);
 
         // Проверка изменения сотрудника
